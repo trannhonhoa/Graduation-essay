@@ -24,6 +24,7 @@ async function createProduct(params, callback) {
 async function getProduct(params, callback) {
     const productName = params.productName;
     const categoryId = params.categoryId;
+ 
     var condition = {}
     if (productName) {
         condition["productName"] = {
@@ -32,14 +33,15 @@ async function getProduct(params, callback) {
         }
     }
     if (categoryId) {
-        condition["categoryId"] = categoryId
+        console.log("category Id", categoryId);
+        condition["category"] = categoryId;
     }
     let perPage = Math.abs(params.pageSize) || MONGO_DB_CONFIG.PAGE_SIZE;
     let page = (Math.abs(params.page) || 1) - 1;
 
     product.find(condition, "productId productName productShortDescription productDescription productPrice productSalePrice productImage productSKU productType stockStatus createdAt updatedAt")
         .populate("category", "categoryName categoryImage")
-        .sort(params.sort, )
+        .sort(params.sort)
         .limit(perPage)
         .skip(perPage * page)
         .then(res => {

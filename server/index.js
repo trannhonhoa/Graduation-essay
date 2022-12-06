@@ -3,12 +3,10 @@ const app = express();
 const mongoose = require('mongoose');
 const { MONGO_DB_CONFIG } = require('./config/app.config');
 const errors = require('./middleware/errors');
-// server = {};
 var cors = require('cors');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// var fs = require('fs');
 mongoose.Promise = global.Promise;
 mongoose.connect(MONGO_DB_CONFIG.DB, {
         useNewUrlParser: true,

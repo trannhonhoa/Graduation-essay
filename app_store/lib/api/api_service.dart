@@ -35,6 +35,10 @@ class APIService {
       'page': productFilterModel.paginationModel.page.toString(),
       'pazeSize': productFilterModel.paginationModel.pageSize.toString()
     };
+
+    if (productFilterModel.categoryId != null) {
+      queryString["categoryId"] = productFilterModel.categoryId!;
+    }
     if (productFilterModel.sortBy != null) {
       queryString["sort"] = productFilterModel.sortBy!;
     }

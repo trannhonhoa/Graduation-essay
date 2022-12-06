@@ -60,9 +60,7 @@ class HomeProductWidget extends ConsumerWidget {
         itemBuilder: (context, index) {
           var data = products[index];
           return GestureDetector(
-            onTap: () {
-              print(123);
-            },
+            onTap: () {},
             child: ProductCard(
               model: data,
             ),

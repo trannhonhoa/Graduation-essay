@@ -28,8 +28,8 @@ exports.create = (req, res, next) => {
 
 exports.findAll = (req, res, next) => {
     var model = {
-        categoryName: req.body.categoryName,
-        categoryId: req.body.categoryId,
+        categoryName: req.query.categoryName,
+        categoryId: req.query.categoryId,
         pageSize: req.query.pageSize,
         page: req.query.page,
         sort: req.query.sort

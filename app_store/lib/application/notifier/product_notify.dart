@@ -8,11 +8,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ProductNotify extends StateNotifier<ProductState> {
   final APIService _apiService;
   final ProductFilterModel _filterModel;
+
   ProductNotify(this._apiService, this._filterModel)
       : super(const ProductState());
   int _page = 1;
 
-  Future<void> getProduct() async {
+  Future<void> getProducts() async {
     if (state.isLoading || !state.hasNext) {
       return;
     }
@@ -27,5 +28,11 @@ class ProductNotify extends StateNotifier<ProductState> {
     state = state.copyWith(products: newProduct);
     _page++;
     state = state.copyWith(isLoading: false);
+  }
+
+  Future<void> refreshProducts() async {
+    state = state.copyWith(products: [], hasNext: true);
+    _page = 1;
+    await getProducts();
   }
 }

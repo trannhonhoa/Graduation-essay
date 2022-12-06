@@ -1,4 +1,7 @@
 import 'package:ecomshop/api/api_service.dart';
+import 'package:ecomshop/application/notifier/product_filter_notify.dart';
+import 'package:ecomshop/application/notifier/product_notify.dart';
+import 'package:ecomshop/application/state/product_state.dart';
 import 'package:ecomshop/models/category.dart';
 import 'package:ecomshop/models/product.dart';
 import 'package:ecomshop/models/product_filter.dart';
@@ -18,3 +21,11 @@ final homeproductsProvider =
   final apiRepository = ref.watch(apiService);
   return apiRepository.getProducts(productFilterModel);
 });
+
+final productsFilterProvider =
+    StateNotifierProvider<ProductFilterNotify, ProductFilterModel>(
+        (ref) => ProductFilterNotify());
+
+final productNotifierProvider =
+    StateNotifierProvider<ProductNotify, ProductState>((ref) => ProductNotify(
+        ref.watch(apiService), ref.watch(productsFilterProvider)));
