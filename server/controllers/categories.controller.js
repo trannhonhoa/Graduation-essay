@@ -1,5 +1,4 @@
 const categoriesService = require("../services/category.service");
-const upload = require("../middleware/category.upload");
 
 exports.create = (req, res, next) => {
   var model = {

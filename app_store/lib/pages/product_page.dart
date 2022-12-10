@@ -111,6 +111,18 @@ class _ProductList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productsState = ref.watch(productNotifierProvider);
+
+    // _scrollController.addListener(() {
+    //   if (_scrollController.position.pixels ==
+    //       _scrollController.position.maxScrollExtent) {
+    //     final productsViewModel = ref.read(productNotifierProvider.notifier);
+    //     final productState = ref.watch(productNotifierProvider);
+    //     if (productState.hasNext) {
+    //       productsViewModel.getProducts();
+    //     }
+    //   }
+    // });
+
     if (productsState.products.isEmpty) {
       if (!productsState.hasNext && !productsState.isLoading) {
         return const Center(child: Text('No Products'));
@@ -127,13 +139,23 @@ class _ProductList extends ConsumerWidget {
               flex: 1,
               child: GridView.count(
                 crossAxisCount: 2,
+                controller: _scrollController,
+                childAspectRatio: MediaQuery.of(context).size.width / 390,
                 children: List.generate(productsState.products.length, (index) {
                   return ProductCard(
                     model: productsState.products[index],
                   );
                 }),
               ),
-            )
+            ),
+            Visibility(
+                visible: productsState.isLoading &&
+                    productsState.products.isNotEmpty,
+                child: const SizedBox(
+                  height: 35,
+                  width: 35,
+                  child: CircularProgressIndicator(),
+                ))
           ],
         ));
   }

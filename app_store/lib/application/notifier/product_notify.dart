@@ -25,9 +25,11 @@ class ProductNotify extends StateNotifier<ProductState> {
     if (products.length % 10 != 0 || products.isEmpty) {
       state = state.copyWith(hasNext: false);
     }
-    state = state.copyWith(products: newProduct);
-    _page++;
-    state = state.copyWith(isLoading: false);
+    Future.delayed(const Duration(microseconds: 1500), () {
+      state = state.copyWith(products: newProduct);
+      _page++;
+      state = state.copyWith(isLoading: false);
+    });
   }
 
   Future<void> refreshProducts() async {

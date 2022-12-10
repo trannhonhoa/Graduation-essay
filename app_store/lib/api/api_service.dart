@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:ecomshop/config.dart';
 import 'package:ecomshop/models/category.dart';
+import 'package:ecomshop/models/login_respone.dart';
 import 'package:ecomshop/models/product.dart';
 import 'package:ecomshop/models/product_filter.dart';
+import 'package:ecomshop/utils/shared_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
@@ -50,5 +52,32 @@ class APIService {
     } else {
       return null;
     }
+  }
+
+  static Future<bool> registerUser(
+      String fullName, String email, String password) async {
+    Map<String, String> requestHeaders = {"Content-Type": "application/json"};
+    var url = Uri.http(Config.apiUrl, Config.registerAPI);
+    var respone = await client.post(url,
+        headers: requestHeaders,
+        body: jsonEncode(
+            {'fullName': fullName, 'email': email, 'password': password}));
+    if (respone.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  static Future<bool> loginUser(String email, String password) async {
+    Map<String, String> requestHeaders = {"Content-Type": "application/json"};
+    var url = Uri.http(Config.apiUrl, Config.loginAPI);
+    var respone = await client.post(url,
+        headers: requestHeaders,
+        body: jsonEncode({'email': email, 'password': password}));
+    if (respone.statusCode == 200) {
+      await SharedService.setLoginDetails(loginResponeJson(respone.body));
+      return true;
+    }
+    return false;
   }
 }

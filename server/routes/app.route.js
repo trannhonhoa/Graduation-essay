@@ -1,5 +1,6 @@
 const categoryController = require("../controllers/categories.controller");
 const productController = require("../controllers/products.controller");
+const userController = require("../controllers/users.controller");
 const { uploadCategory, uploadProduct } = require("../middleware/product.upload");
 const express = require('express');
 
@@ -49,6 +50,10 @@ route.get('/product/:id', productController.findOne);
 route.put('/product/:id', productController.update);
 route.delete('/product/:id', productController.delete);
 
+// user
+
+route.post('/login', userController.login);
+route.post('/register', userController.register);
 
 
 

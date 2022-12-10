@@ -21,6 +21,6 @@ mongoose.connect(MONGO_DB_CONFIG.DB, {
 app.use("/uploads", express.static("uploads"));
 app.use("/api", require('./routes/app.route'));
 app.use(errors.handlerError);
-app.listen(process.env.port || 5000, "192.168.3.10", function () {
+app.listen(process.env.port || 5000, "192.168.3.12", function () {
   console.log("Ready to Go !");
 });
