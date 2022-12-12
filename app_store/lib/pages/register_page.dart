@@ -275,7 +275,6 @@ class _MyWidgetState extends State<RegisterPage> {
                         style: const TextStyle(color: Colors.green),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            print("123");
                             Navigator.of(context).pushNamedAndRemoveUntil(
                                 '/login', (route) => false);
                           })

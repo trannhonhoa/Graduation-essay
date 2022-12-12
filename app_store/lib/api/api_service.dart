@@ -5,6 +5,7 @@ import 'package:ecomshop/models/category.dart';
 import 'package:ecomshop/models/login_respone.dart';
 import 'package:ecomshop/models/product.dart';
 import 'package:ecomshop/models/product_filter.dart';
+import 'package:ecomshop/models/slider.dart';
 import 'package:ecomshop/utils/shared_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -79,5 +80,21 @@ class APIService {
       return true;
     }
     return false;
+  }
+
+  Future<List<SliderModel>?> getSliders(page, pageSize) async {
+    Map<String, String> requestHeaders = {"Content-Type": "application/json"};
+    Map<String, String> queryString = {
+      'page': page.toString(),
+      'pazeSize': pageSize.toString()
+    };
+    var url = Uri.http(Config.apiUrl, Config.sliderAPI, queryString);
+    var res = await client.get(url, headers: requestHeaders);
+    if (res.statusCode == 200) {
+      var data = jsonDecode(res.body);
+      return slidersFromJson(data["data"]);
+    } else {
+      return null;
+    }
   }
 }

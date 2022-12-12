@@ -3,6 +3,7 @@ import 'package:ecomshop/application/notifier/product_filter_notify.dart';
 import 'package:ecomshop/application/notifier/product_notify.dart';
 import 'package:ecomshop/application/state/product_state.dart';
 import 'package:ecomshop/models/category.dart';
+import 'package:ecomshop/models/slider.dart';
 import 'package:ecomshop/models/product.dart';
 import 'package:ecomshop/models/product_filter.dart';
 import 'package:ecomshop/models/pagination.dart';
@@ -29,3 +30,11 @@ final productsFilterProvider =
 final productNotifierProvider =
     StateNotifierProvider<ProductNotify, ProductState>((ref) => ProductNotify(
         ref.watch(apiService), ref.watch(productsFilterProvider)));
+//slider
+final slidersProvider =
+    FutureProvider.family<List<SliderModel>?, PaginationModel>(
+        (ref, paginationModel) {
+  final apiRepository = ref.watch(apiService);
+  return apiRepository.getSliders(
+      paginationModel.page, paginationModel.pageSize);
+});

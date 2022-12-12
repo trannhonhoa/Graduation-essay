@@ -1,6 +1,5 @@
 const usersService = require("../services/user.service");
 exports.register = (req, res, next) => {
-  console.log(req.body);
   usersService.register(req.body, (err, result) => {
     if (err) {
       return next(err);

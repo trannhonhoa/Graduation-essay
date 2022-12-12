@@ -16,6 +16,14 @@ const storgeCategory = multer.diskStorage({
     cb(null, Date.now() + "-" + file.originalname);
   },
 });
+const storgeSlider = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/sliders");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
 const fileFilter = (req, file, cb) => {
     const acceptableExt = [".png", ".jpg", ".jpeg", ".gif"];
     if (!acceptableExt.includes(Path.extname(file.originalname))) {
@@ -38,4 +46,9 @@ let uploadCategory = multer({
   fileFilter: fileFilter,
   fileSize: 1048576,
 });
-module.exports = { uploadProduct, uploadCategory };
+let uploadSlider = multer({
+  storage: storgeSlider,
+  fileFilter: fileFilter,
+  fileSize: 1048576,
+});
+module.exports = { uploadProduct, uploadCategory, uploadSlider };

@@ -1,12 +1,13 @@
-const categoriesService = require("../services/category.service");
+const slidersService = require("../services/slider.service");
 
 exports.create = (req, res, next) => {
   var model = {
-    categoryName: req.body.categoryName,
-    categoryDescription: req.body.categoryDescription,
-    categoryImage: req.body.categoryImage,
+    sliderName: req.body.sliderName,
+    sliderDescription: req.body.sliderDescription,
+    sliderImage: req.body.sliderImage,
+    sliderUrl: req.body.sliderUrl,
   };
-  categoriesService.createCategory(model, (err, result) => {
+  slidersService.createSlider(model, (err, result) => {
     if (err) {
       return next(err);
     } else {
@@ -20,11 +21,11 @@ exports.create = (req, res, next) => {
 
 exports.findAll = (req, res, next) => {
   var model = {
-    categoryName: req.body.categoryName,
+    sliderName: req.body.sliderName,
     pageSize: req.query.pageSize,
     page: req.query.page,
   };
-  categoriesService.getCategories(model, (err, result) => {
+  slidersService.getSliders(model, (err, result) => {
     if (err) {
       return next(err);
     } else {
@@ -37,9 +38,9 @@ exports.findAll = (req, res, next) => {
 };
 exports.findOne = (req, res, next) => {
   var model = {
-    categoryId: req.params.id,
+    sliderId: req.params.id,
   };
-  categoriesService.getCategoryById(model, (err, result) => {
+  slidersService.getSliderById(model, (err, result) => {
     if (err) {
       return next(err);
     } else {
@@ -52,15 +53,16 @@ exports.findOne = (req, res, next) => {
 };
 
 exports.update = (req, res, next) => {
-  var model = {
-    categoryId: req.params.id,
-    categoryName: req.body.categoryName,
-    categoryDescription: req.body.categoryDescription,
-    categoryImage: req.body.categoryImage,
-  };
-  categoriesService.updateCategory(model, (err, result) => {
+   var model = {
+    sliderId: req.params.id,
+     sliderName: req.body.sliderName,
+     sliderDescription: req.body.sliderDescription,
+     sliderImage: req.body.sliderImage,
+     sliderUrl: req.body.sliderUrl,
+   };
+  slidersService.updateSlider(model, (err, result) => {
     if (err) {
-      return next(error);
+      return next(err);
     } else {
       return res.status(200).send({
         message: "Sucess",
@@ -70,10 +72,10 @@ exports.update = (req, res, next) => {
   });
 };
 exports.delete = (req, res, next) => {
-  var model = {
-    categoryId: req.params.id,
-  };
-  categoriesService.deleteCategory(model, (err, result) => {
+   var model = {
+     sliderId: req.params.id,
+   };
+  slidersService.deleteSlider(model, (err, result) => {
     if (err) {
       return next(err);
     } else {

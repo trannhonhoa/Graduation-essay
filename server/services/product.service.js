@@ -1,3 +1,4 @@
+const { response } = require('express');
 const { MONGO_DB_CONFIG } = require('../config/app.config');
 const { category } = require('../models/category.model.js');
 const { product } = require('../models/product.model.js');
@@ -36,15 +37,27 @@ async function getProduct(params, callback) {
         console.log("category Id", categoryId);
         condition["category"] = categoryId;
     }
+    if(params.productIds){
+        condition["_id"] = {
+            $in: params.productIds.split(",")
+        }
+    }
     let perPage = Math.abs(params.pageSize) || MONGO_DB_CONFIG.PAGE_SIZE;
     let page = (Math.abs(params.page) || 1) - 1;
 
     product.find(condition, "productId productName productShortDescription productDescription productPrice productSalePrice productImage productSKU productType stockStatus createdAt updatedAt")
         .populate("category", "categoryName categoryImage")
+        .populate("relatedProducts", "relatedProduct")
         .sort(params.sort)
         .limit(perPage)
         .skip(perPage * page)
-        .then(res => {
+        .then(response => {
+            var res = response.map(r => {
+                if(r.relatedProducts.length > 0){
+                    r.relatedProducts = r.relatedProducts.map((x)=> x.relatedProduct)
+                }
+                return r;
+            })
             return callback(null, res)
         })
         .catch(error => {
@@ -54,15 +67,20 @@ async function getProduct(params, callback) {
 async function getProductById(params, callback) {
     const productId = params.productId;
 
-    product.findById(productId)
-        .populate("category", "categoryName categoryImage")
-        .then(res => {
-            if (!res) callback("Not found product with Id" + productId)
-            return callback(null, res)
-        })
-        .catch(error => {
-            return callback(error)
-        })
+    product
+      .findById(productId)
+      .populate("category", "categoryName categoryImage")
+      .populate("relatedProducts", "relatedProduct")
+      .then((response) => {
+        if (!response) callback("Not found product with Id" + productId);
+        response.relatedProducts = response.relatedProducts.map(
+          (x) => x.relatedProduct
+        );
+        return callback(null, response);
+      })
+      .catch((error) => {
+        return callback(error);
+      });
 }
 
 async function updateProduct(params, callback) {

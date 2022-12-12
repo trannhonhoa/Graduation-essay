@@ -32,7 +32,8 @@ exports.findAll = (req, res, next) => {
         categoryId: req.query.categoryId,
         pageSize: req.query.pageSize,
         page: req.query.page,
-        sort: req.query.sort
+        sort: req.query.sort,
+        productIds: req.query.productIds
     }
     productsService.getProduct(model, (err, result) => {
         if (err) {

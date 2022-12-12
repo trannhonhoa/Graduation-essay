@@ -70,7 +70,7 @@ class ProductCard extends StatelessWidget {
                               color: model!.calculateDiscount > 0
                                   ? Colors.red
                                   : Colors.black,
-                              decoration: model!.productPrice > 0
+                              decoration: model!.productSalePrice > 0
                                   ? TextDecoration.lineThrough
                                   : null),
                         ),

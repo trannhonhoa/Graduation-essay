@@ -1,4 +1,4 @@
-import 'package:ecomshop/pages/home_page.dart';
+import 'package:ecomshop/pages/dashboard_page.dart';
 import 'package:ecomshop/pages/login_page.dart';
 import 'package:ecomshop/pages/product_page.dart';
 import 'package:ecomshop/pages/register_page.dart';
@@ -12,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   bool _res = await SharedService.isLoggedIn();
   if (_res) {
-    _defaultHome = const HomePage();
+    _defaultHome = const DashboardPage();
   }
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const LoginPage(),
       routes: <String, WidgetBuilder>{
         '/': (context) => _defaultHome,
         '/login': (BuildContext context) => const LoginPage(),

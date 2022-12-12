@@ -1,7 +1,9 @@
 const categoryController = require("../controllers/categories.controller");
 const productController = require("../controllers/products.controller");
 const userController = require("../controllers/users.controller");
-const { uploadCategory, uploadProduct } = require("../middleware/product.upload");
+const sliderController = require("../controllers/sliders.controller");
+const relatedProductController = require("../controllers/related-product.controller");
+const { uploadCategory, uploadProduct, uploadSlider } = require("../middleware/product.upload");
 const express = require('express');
 
 
@@ -56,6 +58,28 @@ route.post('/login', userController.login);
 route.post('/register', userController.register);
 
 
+//slider
+route.post("/slider", sliderController.create);
+route.get("/slider",sliderController.findAll);
+route.post(
+  "/slider/single",
+  uploadSlider.single("sliderImage"),
+  (req, res) => {
+    const path = req.file != undefined ? req.file.path.replace(/\\/g, "/") : "";
+    if (!path || path === "") {
+      const error = new Error("Please upload a file");
+      error.httpStatusCode = 400;
+      return next(error);
+    }
+    res.json(path != "" ? "/" + path : "");
+  }
+);
+route.get("/slider/:id", sliderController.findOne);
+route.put("/slider/:id", sliderController.update);
+route.delete("/slider/:id", sliderController.delete);
 
+//related product
+route.post("/relatedProduct", relatedProductController.create);
+route.delete("/relatedProduct/:id",relatedProductController.delete);
 
 module.exports = route;
