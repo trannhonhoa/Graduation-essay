@@ -1,5 +1,6 @@
 import 'package:ecomshop/pages/dashboard_page.dart';
 import 'package:ecomshop/pages/login_page.dart';
+import 'package:ecomshop/pages/product_details_page.dart';
 import 'package:ecomshop/pages/product_page.dart';
 import 'package:ecomshop/pages/register_page.dart';
 import 'package:ecomshop/utils/shared_service.dart';
@@ -32,7 +33,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => _defaultHome,
         '/login': (BuildContext context) => const LoginPage(),
         '/register': (BuildContext context) => const RegisterPage(),
-        '/products': (BuildContext context) => const ProductsPage()
+        '/products': (BuildContext context) => const ProductsPage(),
+        '/product-details': (BuildContext context) => const ProductDetailsPage()
       },
     );
   }

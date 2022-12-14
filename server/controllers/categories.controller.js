@@ -1,14 +1,16 @@
 const categoriesService = require("../services/category.service");
-
+const asyncHandler = require("express-async-handler");
 exports.create = (req, res, next) => {
+  const { categoryName, categoryDescription, categoryImage } = req.body;
   var model = {
-    categoryName: req.body.categoryName,
-    categoryDescription: req.body.categoryDescription,
-    categoryImage: req.body.categoryImage,
+    categoryName,
+    categoryDescription,
+    categoryImage,
   };
+
   categoriesService.createCategory(model, (err, result) => {
     if (err) {
-      return next(err);
+      return next(err)
     } else {
       return res.status(200).send({
         message: "Sucess",
@@ -28,6 +30,7 @@ exports.findAll = (req, res, next) => {
     if (err) {
       return next(err);
     } else {
+      console.log(result)
       return res.status(200).send({
         message: "Sucess",
         data: result,

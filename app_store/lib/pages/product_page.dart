@@ -23,6 +23,7 @@ class _ProductsPageState extends State<ProductsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
+        backgroundColor: Colors.green,
       ),
       body: Container(
         color: Colors.grey[300],

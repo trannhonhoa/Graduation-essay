@@ -1,12 +1,7 @@
 const { MONGO_DB_CONFIG } = require('../config/app.config');
 const { category } = require('../models/category.model.js');
-
+const { product } = require('../models/product.model');
 async function createCategory(params, callback) {
-    if (!params.categoryName) {
-        return callback({
-            message: "Category Name Required"
-        }, "")
-    }
     const model = new category(params);
     model.save()
         .then(res => {
@@ -15,6 +10,7 @@ async function createCategory(params, callback) {
         .catch(error => {
             return callback(error)
         })
+
 }
 async function getCategories(params, callback) {
     const categoryName = params.categoryName;
@@ -27,11 +23,10 @@ async function getCategories(params, callback) {
     let perPage = Math.abs(params.pageSize) || MONGO_DB_CONFIG.PAGE_SIZE;
     let page = (Math.abs(params.page) || 1) - 1;
 
-    const abc = category.find(condition, "categoryName categoryImage categoryDescription")
+    category.find(condition, "categoryName categoryImage categoryDescription")
         .limit(perPage)
         .skip(perPage * page)
         .then(res => {
-            console.log(abc)
             return callback(null, res)
         })
         .catch(error => {
@@ -68,9 +63,12 @@ async function deleteCategory(params, callback) {
 
 
     category.findByIdAndDelete(categoryId)
-        .then(res => {
+        .then(async res => {
             if (!res) callback("Not found Category with Id" + categoryId)
-            return callback(null, res)
+            else {
+                await product.deleteMany({category: categoryId})
+                return callback(null, res);
+            }
         })
         .catch(error => {
             return callback(error)
