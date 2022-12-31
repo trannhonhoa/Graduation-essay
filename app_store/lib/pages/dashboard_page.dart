@@ -1,3 +1,4 @@
+import 'package:ecomshop/pages/cart_page.dart';
 import 'package:ecomshop/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -13,7 +14,7 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   final List<Widget> widgetList = const [
     HomePage(),
-    HomePage(),
+    CartPage(),
     HomePage(),
     HomePage()
   ];

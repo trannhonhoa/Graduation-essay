@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:ecomshop/config.dart';
+import 'package:ecomshop/main.dart';
+import 'package:ecomshop/models/cart.dart';
 import 'package:ecomshop/models/category.dart';
 import 'package:ecomshop/models/login_respone.dart';
 import 'package:ecomshop/models/product.dart';
@@ -113,5 +115,77 @@ class APIService {
     } else {
       return null;
     }
+  }
+
+  // cart
+  Future<Cart?> getCart() async {
+    var loginDetails = await SharedService.loginDetails();
+    Map<String, String> requestHeaders = {
+      "Content-Type": "application/json",
+      "Authorization": "Basic ${loginDetails!.data.token.toString()}"
+    };
+
+    var url = Uri.http(Config.apiUrl, Config.cartAPI);
+    var res = await client.get(url, headers: requestHeaders);
+    if (res.statusCode == 200) {
+      var data = jsonDecode(res.body);
+      return Cart.fromJson(data["data"]);
+    } else if (res.statusCode == 401) {
+      navigatorKey.currentState
+          ?.pushNamedAndRemoveUntil("/login", (route) => false);
+    }
+    return null;
+  }
+
+  // addCart
+  Future<bool?> addCartItem(productId, qty) async {
+    var loginDetails = await SharedService.loginDetails();
+    Map<String, String> requestHeaders = {
+      "Content-Type": "application/json",
+      "Authorization": "Basic ${loginDetails!.data.token.toString()}"
+    };
+
+    var url = Uri.http(Config.apiUrl, Config.cartAPI);
+    var res = await client.post(url,
+        headers: requestHeaders,
+        body: jsonEncode({
+          "product": [
+            {"productId": productId, "qyt": qty}
+          ]
+        }));
+    if (res.statusCode == 200) {
+      var data = jsonDecode(res.body);
+      return true;
+    } else if (res.statusCode == 401) {
+      navigatorKey.currentState
+          ?.pushNamedAndRemoveUntil("/login", (route) => false);
+    }
+    return null;
+  }
+
+  //remove cart
+  Future<bool?> removeCartItem(productId, qty) async {
+    var loginDetails = await SharedService.loginDetails();
+    Map<String, String> requestHeaders = {
+      "Content-Type": "application/json",
+      "Authorization": "Basic ${loginDetails!.data.token.toString()}"
+    };
+
+    var url = Uri.http(Config.apiUrl, Config.cartAPI);
+    var res = await client.delete(url,
+        headers: requestHeaders,
+        body: jsonEncode({
+          "product": [
+            {"productId": productId, "qyt": qty}
+          ]
+        }));
+    if (res.statusCode == 200) {
+      var data = jsonDecode(res.body);
+      return true;
+    } else if (res.statusCode == 401) {
+      navigatorKey.currentState
+          ?.pushNamedAndRemoveUntil("/login", (route) => false);
+    }
+    return null;
   }
 }

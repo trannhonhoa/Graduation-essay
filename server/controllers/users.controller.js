@@ -12,7 +12,6 @@ exports.register = (req, res, next) => {
   });
 };
 exports.login = (req, res, next) => {
-   console.log(req.body);
   const {email, password} = req.body;
   usersService.login({email, password}, (err, result) => {
     if (err) {

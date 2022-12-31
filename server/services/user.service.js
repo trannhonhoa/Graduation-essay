@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const auth = require('../middleware/auth');
 async function login ({email,password}, callback){
     const userModel = await user.findOne({email});
-    console.log(userModel);
     if(userModel != null){
         if(bcrypt.compareSync(password, userModel.password)){
             const token = auth.generateToken(userModel.toJSON())

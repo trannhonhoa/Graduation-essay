@@ -1,6 +1,8 @@
 import 'package:ecomshop/api/api_service.dart';
+import 'package:ecomshop/application/notifier/cart_notify.dart';
 import 'package:ecomshop/application/notifier/product_filter_notify.dart';
 import 'package:ecomshop/application/notifier/product_notify.dart';
+import 'package:ecomshop/application/state/cart_state.dart';
 import 'package:ecomshop/application/state/product_state.dart';
 import 'package:ecomshop/models/category.dart';
 import 'package:ecomshop/models/slider.dart';
@@ -50,4 +52,8 @@ final relatedProductsProvider =
         (ref, productFilterModel) {
   final apiRepository = ref.watch(apiService);
   return apiRepository.getProducts(productFilterModel);
+});
+// cart
+final cartItemProvider = StateNotifierProvider<CartNotify, CartState>((ref) {
+  return CartNotify(ref.watch(apiService));
 });

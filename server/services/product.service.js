@@ -34,10 +34,10 @@ async function getProduct(params, callback) {
         }
     }
     if (categoryId) {
-        console.log("category Id", categoryId);
+      
         condition["category"] = categoryId;
     }
-    console.log("log " + params.productIds);
+    
     if(params.productIds){
         condition["_id"] = {
             $in: params.productIds.split(",")

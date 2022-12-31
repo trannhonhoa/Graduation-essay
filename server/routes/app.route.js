@@ -3,6 +3,8 @@ const productController = require("../controllers/products.controller");
 const userController = require("../controllers/users.controller");
 const sliderController = require("../controllers/sliders.controller");
 const relatedProductController = require("../controllers/related-product.controller");
+const cartController = require("../controllers/carts.controller");
+const {authenticationToken} = require('../middleware/auth');
 const { uploadCategory, uploadProduct, uploadSlider } = require("../middleware/product.upload");
 const express = require('express');
 
@@ -82,4 +84,8 @@ route.delete("/slider/:id", sliderController.delete);
 route.post("/relatedProduct", relatedProductController.create);
 route.delete("/relatedProduct/:id",relatedProductController.delete);
 
+//cart
+route.post("/cart",[authenticationToken] ,cartController.create);
+route.get("/cart", [authenticationToken], cartController.create);
+route.delete("/cart", [authenticationToken], cartController.create);
 module.exports = route;
